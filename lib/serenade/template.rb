@@ -19,27 +19,8 @@ module Serenade
     # @param [Hash] locals
     # @return (see Serenade::Renderer#render)
     def evaluate(scope, locals, &block)
-      self.class.evaluate(scope, data)
-    end
-
-    # Sprockets 3 and 4 API
-    # see https://github.com/ai/autoprefixer-rails/pull/85/files#diff-511ef82f18d3627fd105a2c4680c5466
-    def self.call(input)
-      filename  = input[:filename]
-      source    = input[:data]
-      evaluate(filename, source)
-    end
-
-    def self.evaluate(scope, source)
-      name =
-        if scope.respond_to?(:logical_path)
-          # See Sprockets::Context#logical_path
-          scope.logical_path.gsub(/^views\//, "")
-        else
-          scope.chomp(File.extname(scope)).gsub(/^views\//, "")
-        end
-
-      Serenade::Renderer.new(name, source.dup).render
+      name = scope.logical_path.gsub(/^views\//, "")
+      Serenade::Renderer.new(name, data.dup).render
     end
   end
 end
