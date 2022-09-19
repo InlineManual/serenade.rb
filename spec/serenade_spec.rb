@@ -1,15 +1,15 @@
 require "serenade"
 
 describe Serenade do
-  specify { defined?(Serenade::VERSION).should_not be_nil }
+  specify { expect(defined?(Serenade::VERSION)).not_to be_nil }
 
   describe Serenade::Renderer do
     describe "#parse" do
       it "returns a parsed Sereande template" do
         result = Serenade::Renderer.new("foo", 'h1 "Hello world"').parse[0]
-        result["name"].should eq "h1"
-        result["children"][0]["type"].should eq "text"
-        result["children"][0]["value"].should eq "Hello world"
+        expect(result["name"]).to eq "h1"
+        expect(result["children"][0]["type"]).to eq "text"
+        expect(result["children"][0]["value"]).to eq "Hello world"
       end
     end
   end
